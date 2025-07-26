@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Car, Settings, Phone, User, Search } from 'lucide-react';
-import Link from 'next/link'; // Import Link from next/link
 
 const AutomotiveNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,29 +17,15 @@ const AutomotiveNavbar = () => {
     { 
       name: 'Vehicles', 
       icon: Car, 
-      href: '/vehicles', // Add base href for main nav item
-      dropdown: [
-        { name: 'New Cars', href: '/vehicles/new-cars' },
-        { name: 'Used Cars', href: '/vehicles/used-cars' },
-        { name: 'Electric', href: '/vehicles/electric' },
-        { name: 'Luxury', href: '/vehicles/luxury' },
-        { name: 'Sports', href: '/vehicles/sports' },
-      ] 
+      dropdown: ['New Cars', 'Used Cars', 'Electric', 'Luxury', 'Sports'] 
     },
     { 
       name: 'Services', 
       icon: Settings, 
-      href: '/services', // Add base href for main nav item
-      dropdown: [
-        { name: 'Maintenance', href: '/services/maintenance' },
-        { name: 'Repairs', href: '/services/repairs' },
-        { name: 'Insurance', href: '/services/insurance' },
-        { name: 'Financing', href: '/services/financing' },
-        { name: 'Warranty', href: '/services/warranty' },
-      ] 
+      dropdown: ['Maintenance', 'Repairs', 'Insurance', 'Financing', 'Warranty'] 
     },
-    { name: 'About', icon: User, href: '/about' }, // Add href
-    { name: 'Contact', icon: Phone, href: '/contact' }, // Add href
+    { name: 'About', icon: User },
+    { name: 'Contact', icon: Phone },
   ];
 
   return (
@@ -67,7 +52,7 @@ const AutomotiveNavbar = () => {
           <div className="flex items-center justify-between h-20">
             
             {/* Logo Section with 3D effect */}
-            <Link href="/" className="flex items-center space-x-4 group cursor-pointer">
+            <div className="flex items-center space-x-4 group cursor-pointer">
               <div className="relative">
                 <div className="w-12 h-12 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 rounded-xl rotate-45 shadow-2xl group-hover:rotate-[135deg] transition-all duration-700 ease-out transform group-hover:scale-110">
                   <div className="absolute inset-2 bg-black rounded-lg -rotate-45 flex items-center justify-center">
@@ -84,7 +69,7 @@ const AutomotiveNavbar = () => {
                   Premium Automotive
                 </p>
               </div>
-            </Link>
+            </div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1">
@@ -95,8 +80,7 @@ const AutomotiveNavbar = () => {
                   onMouseEnter={() => setActiveDropdown(item.dropdown ? item.name : null)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <Link 
-                    href={item.href}
+                  <button 
                     className="flex items-center space-x-2 px-6 py-3 rounded-xl text-white/90 hover:text-white transition-all duration-300 group relative overflow-hidden"
                     style={{
                       animationDelay: `${index * 100}ms`,
@@ -111,26 +95,25 @@ const AutomotiveNavbar = () => {
                     {item.dropdown && (
                       <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
                     )}
-                  </Link>
+                  </button>
 
                   {/* Dropdown Menu */}
                   {item.dropdown && activeDropdown === item.name && (
                     <div className="absolute top-full left-0 mt-2 w-64 bg-black/90 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden animate-in slide-in-from-top-2 duration-300">
                       <div className="p-2">
                         {item.dropdown.map((dropItem, idx) => (
-                          <Link
-                            key={dropItem.name}
-                            href={dropItem.href}
-                            className="block w-full text-left px-4 py-3 text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-red-600/20 hover:to-orange-500/20 rounded-xl transition-all duration-300 group/item"
+                          <button
+                            key={dropItem}
+                            className="w-full text-left px-4 py-3 text-white/80 hover:text-white hover:bg-gradient-to-r hover:from-red-600/20 hover:to-orange-500/20 rounded-xl transition-all duration-300 group/item"
                             style={{
                               animationDelay: `${idx * 50}ms`,
                               animation: 'slideInLeft 0.4s ease-out forwards'
                             }}
                           >
                             <span className="group-hover/item:translate-x-2 transition-transform duration-300 inline-block">
-                              {dropItem.name}
+                              {dropItem}
                             </span>
-                          </Link>
+                          </button>
                         ))}
                       </div>
                     </div>
@@ -172,8 +155,7 @@ const AutomotiveNavbar = () => {
           <div className="bg-black/95 backdrop-blur-xl border-t border-white/10 px-6 py-6 space-y-4">
             {navItems.map((item, index) => (
               <div key={item.name} className="space-y-2">
-                <Link 
-                  href={item.href}
+                <button 
                   className="flex items-center justify-between w-full px-4 py-3 text-white rounded-xl hover:bg-white/10 transition-all duration-300 group"
                   onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
                   style={{
@@ -190,19 +172,18 @@ const AutomotiveNavbar = () => {
                       activeDropdown === item.name ? 'rotate-180' : ''
                     }`} />
                   )}
-                </Link>
+                </button>
 
                 {/* Mobile Dropdown */}
                 {item.dropdown && activeDropdown === item.name && (
                   <div className="ml-8 space-y-2 animate-in slide-in-from-top-2 duration-300">
                     {item.dropdown.map((dropItem) => (
-                      <Link
-                        key={dropItem.name}
-                        href={dropItem.href}
+                      <button
+                        key={dropItem}
                         className="block w-full text-left px-4 py-2 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300"
                       >
-                        {dropItem.name}
-                      </Link>
+                        {dropItem}
+                      </button>
                     ))}
                   </div>
                 )}
@@ -219,13 +200,35 @@ const AutomotiveNavbar = () => {
         </div>
       </nav>
 
-     
+      {/* Demo Content */}
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 pt-24">
+        <div className="max-w-7xl mx-auto px-6 py-20">
+          <div className="text-center">
+            <h1 className="text-6xl font-bold bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent mb-6">
+              Premium Automotive
+            </h1>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Experience the ultimate in automotive excellence with our premium 3D animated navigation system.
+            </p>
+          </div>
           
-         
+          {/* Scroll indicator */}
+          <div className="mt-20 text-center">
+            <p className="text-gray-500 mb-4">Scroll to see navbar effects</p>
+            <div className="w-6 h-10 border-2 border-white/20 rounded-full mx-auto relative">
+              <div className="w-1 h-3 bg-white/40 rounded-full mx-auto mt-2 animate-bounce" />
+            </div>
+          </div>
+        </div>
 
-        
-        
-    
+        {/* Additional content for scrolling demonstration */}
+        <div className="h-screen bg-gradient-to-br from-red-900/20 to-yellow-900/20 flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">Scroll Effects Active</h2>
+            <p className="text-gray-300">The navbar adapts with smooth animations as you scroll</p>
+          </div>
+        </div>
+      </div>
 
       <style jsx global>{`
         @keyframes slideInDown {
